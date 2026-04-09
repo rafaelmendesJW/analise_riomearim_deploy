@@ -952,7 +952,7 @@ def build_summary_table(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def main() -> None:
-    st.title("Rio Mearim: análise quali-água (2019-2024)")
+    st.title("Rio Mearim: análise da qualidade da água (2019-2024)")
     st.caption(
         "Aplicação para leitura e tratamento da planilha multiabas com comparativos por ano, período e campanha."
     )
