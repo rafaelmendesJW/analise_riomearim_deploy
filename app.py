@@ -388,6 +388,20 @@ def detect_default_excel() -> Path | None:
     return None
 
 
+def detect_ifma_logo() -> Path | None:
+    candidates = [
+        Path("images.png"),
+        Path("ifma.png"),
+        Path("logo_ifma.png"),
+        Path("assets/images.png"),
+        Path("..") / "images.png",
+    ]
+    for candidate in candidates:
+        if candidate.exists() and candidate.is_file():
+            return candidate
+    return None
+
+
 def filter_dataframe(
     df: pd.DataFrame,
     anos: list[int],
@@ -952,7 +966,21 @@ def build_summary_table(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def main() -> None:
-    st.title("Rio Mearim: análise da qualidade da água (2019-2024)")
+    logo_path = detect_ifma_logo()
+    header_col_logo, header_col_text = st.columns([1, 5], vertical_alignment="top")
+    with header_col_logo:
+        if logo_path is not None:
+            st.image(str(logo_path), width=170)
+    with header_col_text:
+        st.markdown("**Instituto Federal do Maranhão (IFMA)**")
+        st.markdown("Trabalho de Conclusão de Curso - Sistemas de Informação")
+        st.markdown("Aluno: **Rafael Mendes Carneiro**")
+        st.caption("Campus São Luís - Monte Castelo")
+        st.title("Rio Mearim: análise da qualidade da água (2019-2024)")
+
+    if logo_path is None:
+        st.info("Logo IFMA não encontrada. Coloque `images.png` na pasta do projeto.")
+
     st.caption(
         "Aplicação para leitura e tratamento da planilha multiabas com comparativos por ano, período e campanha."
     )
